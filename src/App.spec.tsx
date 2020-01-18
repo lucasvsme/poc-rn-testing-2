@@ -4,6 +4,6 @@ import App from './App';
 
 import renderer from 'react-test-renderer';
 
-it('renders correctly', () => {
+test('renders correctly', () => {
   renderer.create(<App />);
 });
