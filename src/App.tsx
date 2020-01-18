@@ -6,10 +6,17 @@ import {
   View,
   Text,
   StatusBar,
+  ViewStyle,
+  TextStyle,
 } from 'react-native';
 
+interface AppStyle {
+  wrapper: ViewStyle;
+  title: TextStyle;
+}
+
 const App: React.FC = (): React.ReactElement => {
-  const styles = StyleSheet.create({
+  const styles: StyleSheet.NamedStyles<AppStyle> = StyleSheet.create({
     wrapper: {
       marginTop: 32,
       paddingHorizontal: 24,
