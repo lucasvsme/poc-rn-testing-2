@@ -44,5 +44,11 @@
     "presets": [
       "module:metro-react-native-babel-preset"
     ]
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "jsxBracketSameLine": true,
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }
