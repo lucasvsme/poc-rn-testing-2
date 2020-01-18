@@ -3,6 +3,7 @@ build/
 .gradle/
 local.properties
 *.iml
+*.swp
 .vscode/
 node_modules/
 npm-debug.log
