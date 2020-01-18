@@ -16,7 +16,7 @@ interface AppStyle {
 }
 
 const App: React.FC = (): React.ReactElement => {
-  const styles: StyleSheet.NamedStyles<AppStyle> = StyleSheet.create({
+  const style: StyleSheet.NamedStyles<AppStyle> = StyleSheet.create({
     wrapper: {
       marginTop: 32,
       paddingHorizontal: 24,
@@ -32,8 +32,8 @@ const App: React.FC = (): React.ReactElement => {
       <StatusBar />
       <SafeAreaView>
         <ScrollView>
-          <View style={styles.wrapper}>
-            <Text style={styles.title}>React Native</Text>
+          <View style={style.wrapper}>
+            <Text style={style.title}>React Native</Text>
           </View>
         </ScrollView>
       </SafeAreaView>
