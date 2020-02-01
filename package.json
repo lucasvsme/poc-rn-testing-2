@@ -24,6 +24,7 @@
     "babel-jest": "24.9.0",
     "eslint": "6.5.1",
     "eslint-plugin-react": "7.18.0",
+    "eslint-plugin-react-hooks": "2.3.0",
     "jest": "24.9.0",
     "metro-react-native-babel-preset": "0.56.0",
     "react-test-renderer": "16.9.0",
@@ -59,13 +60,14 @@
     "root": true,
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        }
+      "ecmaFeatures": {
+        "jsx": true
+      }
     },
     "plugins": [
       "@typescript-eslint",
-      "react"
+      "react",
+      "react-hooks"
     ],
     "extends": [
       "eslint:recommended",
@@ -74,9 +76,9 @@
       "plugin:react/recommended"
     ],
     "settings": {
-        "react": {
-            "version": "detect"
-        }
+      "react": {
+        "version": "detect"
+      }
     }
   }
 }
