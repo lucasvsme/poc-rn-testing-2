@@ -35,6 +35,7 @@
   "jest": {
     "preset": "react-native",
     "verbose": true,
+    "collectCoverage": true,
     "transform": {
       "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
     },
