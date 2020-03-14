@@ -1,4 +1,4 @@
-import {Text} from 'react-native';
+import {ScrollView} from 'react-native';
 import React from 'react';
 import App from './App';
 
@@ -10,7 +10,7 @@ import ReactRenderer, {
 test('It renders the text', () => {
   const renderer: ReactTestRenderer = ReactRenderer.create(<App />);
 
-  const node: ReactTestInstance = renderer.root.findByType(Text);
+  const node: ReactTestInstance = renderer.root.findByType(ScrollView);
 
-  expect(node.props.children).toStrictEqual('React Native');
+  expect(node).toBeDefined();
 });
