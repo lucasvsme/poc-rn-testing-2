@@ -6,7 +6,6 @@
     "android": "react-native run-android",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "cd android/ && ./gradlew assembleRelease"
   },
   "dependencies": {
@@ -23,30 +22,23 @@
     "@typescript-eslint/parser": "2.18.0",
     "babel-jest": "24.9.0",
     "eslint": "6.8.0",
-    "eslint-plugin-import": "2.20.0",
-    "eslint-plugin-jest": "23.6.0",
+    "eslint-config-prettier": "6.10.0",
     "eslint-plugin-react": "7.18.0",
     "eslint-plugin-react-hooks": "2.3.0",
+    "husky": "4.2.3",
     "jest": "24.9.0",
+    "lint-staged": "10.0.8",
     "metro-react-native-babel-preset": "0.56.0",
+    "prettier": "1.19.1",
     "react-test-renderer": "16.9.0",
     "typescript": "3.7.3"
   },
   "jest": {
     "preset": "react-native",
-    "verbose": true,
     "collectCoverage": true,
     "transform": {
       "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
-    },
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
+    }
   },
   "babel": {
     "presets": [
@@ -54,38 +46,59 @@
     ]
   },
   "prettier": {
-    "bracketSpacing": false,
-    "jsxBracketSameLine": true,
+    "parser": "typescript",
+    "tabWidth": 2,
+    "semi": true,
     "singleQuote": true,
-    "trailingComma": "all"
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "jsxBracketSameLine": true,
+    "arrowParens": "always"
   },
   "eslintConfig": {
     "root": true,
     "parser": "@typescript-eslint/parser",
+    "ignorePatterns": [
+      "coverage/",
+      "node_modules/",
+      "package.json"
+    ],
     "parserOptions": {
+      "project": [
+        "./tsconfig.json"
+      ],
       "ecmaFeatures": {
         "jsx": true
       }
     },
-    "plugins": [
-      "@typescript-eslint",
-      "react",
-      "react-hooks",
-      "jest"
-    ],
     "extends": [
       "eslint:recommended",
       "plugin:@typescript-eslint/eslint-recommended",
       "plugin:@typescript-eslint/recommended",
-      "plugin:react/recommended",
-      "plugin:import/errors",
-      "plugin:import/warnings",
-      "plugin:import/typescript"
+      "plugin:@typescript-eslint/recommended-requiring-type-checking",
+      "prettier/@typescript-eslint",
+      "plugin:react/recommended"
+    ],
+    "plugins": [
+      "@typescript-eslint",
+      "react",
+      "react-hooks"
     ],
     "settings": {
       "react": {
         "version": "detect"
       }
     }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
