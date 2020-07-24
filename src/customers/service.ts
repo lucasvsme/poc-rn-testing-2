@@ -1,7 +1,9 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { Customer, ExistingCustomer } from './types';
 
-type Customers = { customers: ExistingCustomer[] };
+type Customers = {
+  customers: ExistingCustomer[];
+};
 
 export interface CustomerApiClient {
   create(customer: Customer): Promise<ExistingCustomer>;
