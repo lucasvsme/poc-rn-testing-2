@@ -1,12 +1,13 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import { SafeAreaView, StatusBar } from 'react-native';
+import { CustomersView } from './Customer';
 
 const App: React.FC = (): React.ReactElement => {
   return (
     <>
       <StatusBar />
       <SafeAreaView>
-        <ScrollView></ScrollView>
+        <CustomersView />
       </SafeAreaView>
     </>
   );
