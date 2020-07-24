@@ -1,14 +1,14 @@
 import React from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
-import { CustomersView } from './Customer';
+import Native from 'react-native';
+import { CustomersView } from './customers';
 
 const App: React.FC = (): React.ReactElement => {
   return (
     <>
-      <StatusBar />
-      <SafeAreaView>
+      <Native.StatusBar />
+      <Native.SafeAreaView>
         <CustomersView />
-      </SafeAreaView>
+      </Native.SafeAreaView>
     </>
   );
 };
