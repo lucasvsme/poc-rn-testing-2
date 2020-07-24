@@ -1,7 +1,7 @@
 import React from 'react';
 import Native from 'react-native';
 
-import { useCustomersList, useCreateCustomer } from './hooks';
+import { useListFeature, useCreateFeature } from './hooks';
 import { CustomerApiClient } from './service';
 import { CustomersStyle } from './style';
 
@@ -10,8 +10,8 @@ export type CustomersViewProps = {
 };
 
 export const CustomersView: React.FC<CustomersViewProps> = (props) => {
-  const list = useCustomersList(props.client);
-  const create = useCreateCustomer(props.client);
+  const list = useListFeature(props.client);
+  const create = useCreateFeature(props.client);
 
   const [customerName, setCustomerName] = React.useState<string>();
   const [customerAge, setCustomerAge] = React.useState<string>();

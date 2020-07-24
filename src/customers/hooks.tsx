@@ -3,7 +3,7 @@ import React from 'react';
 import { CustomerApiClient } from './service';
 import { Customer, ExistingCustomer } from './types';
 
-export function useCustomersList(customerApiClient: CustomerApiClient) {
+export function useListFeature(customerApiClient: CustomerApiClient) {
   const [customers, setCustomers] = React.useState<ExistingCustomer[]>([]);
   const [isFetching, setFetching] = React.useState<boolean>(false);
 
@@ -26,7 +26,7 @@ export function useCustomersList(customerApiClient: CustomerApiClient) {
   return { customers, fetch, isFetching };
 }
 
-export function useCreateCustomer(customerApiClient: CustomerApiClient) {
+export function useCreateFeature(customerApiClient: CustomerApiClient) {
   const [customer, setCustomer] = React.useState<Customer>();
   const [isCreating, setCreating] = React.useState<boolean>(false);
   const [existingCustomer, setExistingCustomer] = React.useState<
