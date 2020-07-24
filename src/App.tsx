@@ -1,16 +1,24 @@
 import React from 'react';
 import Native from 'react-native';
-import { CustomersView } from './customers';
+import Axios from 'axios';
 
-const App: React.FC = (): React.ReactElement => {
+import { CustomersView, CustomerApiClientImpl } from './customers';
+
+export const App: React.FC = (): React.ReactElement => {
   return (
     <>
       <Native.StatusBar />
       <Native.SafeAreaView>
-        <CustomersView />
+        <CustomersView
+          client={
+            new CustomerApiClientImpl(
+              Axios.create({
+                baseURL: 'http://localhost:8080',
+              }),
+            )
+          }
+        />
       </Native.SafeAreaView>
     </>
   );
 };
-
-export default App;

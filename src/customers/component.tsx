@@ -1,27 +1,17 @@
 import React from 'react';
 import Native from 'react-native';
-import Axios from 'axios';
 
 import { useCustomersList, useCreateCustomer } from './hooks';
-import { CustomerApiClient, CustomerApiClientImpl } from './service';
+import { CustomerApiClient } from './service';
 import { CustomersStyle } from './style';
 
-type CustomersContext = {
+export type CustomersViewProps = {
   client: CustomerApiClient;
 };
 
-const CustomersContextImpl = React.createContext<CustomersContext>({
-  client: new CustomerApiClientImpl(
-    Axios.create({
-      baseURL: 'http://localhost:8080',
-    }),
-  ),
-});
-
-export const CustomersView: React.FC = () => {
-  const context = React.useContext(CustomersContextImpl);
-  const list = useCustomersList(context.client);
-  const create = useCreateCustomer(context.client);
+export const CustomersView: React.FC<CustomersViewProps> = (props) => {
+  const list = useCustomersList(props.client);
+  const create = useCreateCustomer(props.client);
 
   const [customerName, setCustomerName] = React.useState<string>();
   const [customerAge, setCustomerAge] = React.useState<string>();
@@ -35,7 +25,7 @@ export const CustomersView: React.FC = () => {
             style={CustomersStyle.createTextInput}
             placeholder={'Customer name'}
             value={customerName}
-            onChangeText={(currentText) => {
+            onChangeText={(currentText): void => {
               setCustomerName(currentText);
             }}
           />
@@ -43,14 +33,14 @@ export const CustomersView: React.FC = () => {
             style={CustomersStyle.createTextInput}
             placeholder={'Customer age'}
             value={customerAge}
-            onChangeText={(currentText) => {
+            onChangeText={(currentText): void => {
               setCustomerAge(currentText);
             }}
           />
           <Native.Button
             title="Create"
             disabled={isButtonDisabled}
-            onPress={() => {
+            onPress={(): void => {
               if (customerName === undefined) {
                 console.debug('Customer name is undefined');
                 return;
@@ -81,17 +71,17 @@ export const CustomersView: React.FC = () => {
         <Native.View style={CustomersStyle.listWrapper}>
           <Native.Button
             title={'Fetch'}
-            onPress={() => {
+            onPress={(): void => {
               list.fetch();
             }}
           />
           <Native.FlatList
             style={CustomersStyle.listFlatList}
             data={list.customers}
-            keyExtractor={(customer) => {
+            keyExtractor={(customer): string => {
               return customer.id;
             }}
-            renderItem={(list) => {
+            renderItem={(list): React.ReactElement => {
               return (
                 <>
                   <Native.View>
