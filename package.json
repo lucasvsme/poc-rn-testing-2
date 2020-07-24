@@ -89,6 +89,9 @@
       "react": {
         "version": "detect"
       }
+    },
+    "rules": {
+        "react/prop-types": 0
     }
   },
   "husky": {
