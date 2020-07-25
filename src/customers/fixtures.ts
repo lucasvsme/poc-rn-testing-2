@@ -41,20 +41,3 @@ export const mockCustomerApiClientFindAllOnSecondCall = jest
   .fn()
   .mockResolvedValueOnce([])
   .mockResolvedValueOnce([mockExistingCustomer]);
-
-export const mockCustomerContextSetExistingCustomers = jest.fn();
-
-export const mockCustomerContextSetLatestCustomer = jest.fn();
-
-export const mockCustomerContext: CustomerContextType = {
-  existingCustomers: [],
-  setExistingCustomers(existingCustomers) {
-    mockCustomerContextSetExistingCustomers(existingCustomers);
-    this.existingCustomers = existingCustomers;
-  },
-  latestCustomer: undefined,
-  setLatestCustomer(latestCustomer) {
-    mockCustomerContextSetLatestCustomer(latestCustomer);
-    this.latestCustomer = latestCustomer;
-  },
-};
