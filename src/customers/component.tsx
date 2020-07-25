@@ -63,6 +63,7 @@ export const CustomerCreate: React.FC = () => {
     <React.Fragment>
       <Native.View style={CustomersStyle.createWrapper}>
         <Native.TextInput
+          testID={'customer-create-input-name'}
           style={CustomersStyle.createTextInput}
           placeholder={'Customer name'}
           value={customerName}
@@ -71,6 +72,7 @@ export const CustomerCreate: React.FC = () => {
           }}
         />
         <Native.TextInput
+          testID={'customer-create-input-age'}
           style={CustomersStyle.createTextInput}
           placeholder={'Customer age'}
           value={customerAge}
@@ -79,6 +81,7 @@ export const CustomerCreate: React.FC = () => {
           }}
         />
         <Native.Button
+          testID={'customer-create-button'}
           title="Create"
           disabled={isButtonDisabled}
           onPress={(): void => {

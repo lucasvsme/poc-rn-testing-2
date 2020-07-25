@@ -2,11 +2,13 @@ import React from 'react';
 import * as TestingLibrary from 'react-native-testing-library';
 
 import { CustomerContext } from './context';
-import { CustomersList } from './component';
+import { CustomersList, CustomerCreate } from './component';
 
 import {
+  mockCustomer,
   mockCustomerApiClient,
   mockCustomerApiClientFindAll,
+  mockCustomerApiClientCreate,
 } from './fixtures';
 
 describe('CustomersList', () => {
@@ -58,8 +60,102 @@ describe('CustomersList', () => {
 });
 
 describe('CustomerCreate', () => {
-  test.todo('Customer name is required');
-  test.todo('Customer age is required');
-  test.todo('Customer age must be a number');
-  test.todo('Creating a customer and clearing fields');
+  test('Customer name is required', async () => {
+    const component = TestingLibrary.render(
+      <CustomerContext.Provider
+        value={{
+          client: {
+            ...mockCustomerApiClient,
+            create: mockCustomerApiClientCreate,
+          },
+        }}>
+        <CustomerCreate />
+      </CustomerContext.Provider>,
+    );
+
+    const input = await component.findByTestId('customer-create-input-name');
+    TestingLibrary.fireEvent.changeText(input, undefined);
+
+    const button = await component.findByTestId('customer-create-button');
+    TestingLibrary.fireEvent.press(button);
+
+    expect(mockCustomerApiClientCreate).not.toHaveBeenCalled();
+  });
+
+  test('Customer age is required', async () => {
+    const component = TestingLibrary.render(
+      <CustomerContext.Provider
+        value={{
+          client: {
+            ...mockCustomerApiClient,
+            create: mockCustomerApiClientCreate,
+          },
+        }}>
+        <CustomerCreate />
+      </CustomerContext.Provider>,
+    );
+
+    const name = await component.findByTestId('customer-create-input-name');
+    TestingLibrary.fireEvent.changeText(name, mockCustomer.name);
+
+    const age = await component.findByTestId('customer-create-input-age');
+    TestingLibrary.fireEvent.changeText(age, undefined);
+
+    const button = await component.findByTestId('customer-create-button');
+    TestingLibrary.fireEvent.press(button);
+
+    expect(mockCustomerApiClientCreate).not.toHaveBeenCalled();
+  });
+
+  test('Customer age must be a number', async () => {
+    const component = TestingLibrary.render(
+      <CustomerContext.Provider
+        value={{
+          client: {
+            ...mockCustomerApiClient,
+            create: mockCustomerApiClientCreate,
+          },
+        }}>
+        <CustomerCreate />
+      </CustomerContext.Provider>,
+    );
+
+    const name = await component.findByTestId('customer-create-input-name');
+    TestingLibrary.fireEvent.changeText(name, mockCustomer.name);
+
+    const age = await component.findByTestId('customer-create-input-age');
+    TestingLibrary.fireEvent.changeText(age, '4five');
+
+    const button = await component.findByTestId('customer-create-button');
+    TestingLibrary.fireEvent.press(button);
+
+    expect(mockCustomerApiClientCreate).not.toHaveBeenCalled();
+  });
+
+  test('Creating a customer and clearing fields', async () => {
+    const component = TestingLibrary.render(
+      <CustomerContext.Provider
+        value={{
+          client: {
+            ...mockCustomerApiClient,
+            create: mockCustomerApiClientCreate,
+          },
+        }}>
+        <CustomerCreate />
+      </CustomerContext.Provider>,
+    );
+
+    const name = await component.findByTestId('customer-create-input-name');
+    TestingLibrary.fireEvent.changeText(name, mockCustomer.name);
+
+    const age = await component.findByTestId('customer-create-input-age');
+    TestingLibrary.fireEvent.changeText(age, mockCustomer.age.toString());
+
+    await TestingLibrary.act(async () => {
+      const button = await component.findByTestId('customer-create-button');
+      TestingLibrary.fireEvent.press(button);
+    });
+
+    expect(mockCustomerApiClientCreate).toHaveBeenCalled();
+  });
 });
