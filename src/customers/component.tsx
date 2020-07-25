@@ -26,12 +26,12 @@ export const CustomersList: React.FC = () => {
           }}
           renderItem={(list) => {
             return (
-              <>
+              <React.Fragment>
                 <Native.View>
                   <Native.Text>{list.item.name}</Native.Text>
                   <Native.Text>{list.item.age}</Native.Text>
                 </Native.View>
-              </>
+              </React.Fragment>
             );
           }}
         />
