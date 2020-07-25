@@ -13,12 +13,14 @@ export const CustomersList: React.FC = () => {
     <React.Fragment>
       <Native.View style={CustomersStyle.listWrapper}>
         <Native.Button
+          testID={'customers-list-button'}
           title={'Fetch'}
           onPress={() => {
             list.fetch();
           }}
         />
         <Native.FlatList
+          testID={'customers-list-list'}
           style={CustomersStyle.listFlatList}
           data={list.customers}
           keyExtractor={(customer) => {
@@ -27,7 +29,7 @@ export const CustomersList: React.FC = () => {
           renderItem={(list) => {
             return (
               <React.Fragment>
-                <Native.View>
+                <Native.View testID={'customers-list-list-item'}>
                   <Native.Text>{list.item.name}</Native.Text>
                   <Native.Text>{list.item.age}</Native.Text>
                 </Native.View>
