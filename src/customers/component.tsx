@@ -2,7 +2,11 @@ import React from 'react';
 import Native from 'react-native';
 
 import { CustomerContext } from './context';
-import { useListFeature, useCreateFeature } from './hooks';
+import {
+  useListFeature,
+  useCreateFeature,
+  useCustomerValidation,
+} from './hooks';
 import { CustomersStyle } from './style';
 
 export const CustomersList: React.FC = () => {
@@ -56,9 +60,14 @@ export const CustomerCreate: React.FC = () => {
   const customerAgeRef = React.useRef<Native.TextInput>(null);
 
   const [customerName, setCustomerName] = React.useState<string>();
-  const [customerAge, setCustomerAge] = React.useState<string>();
+  const [customerAge, setCustomerAge] = React.useState<number>();
 
   const [isButtonDisabled, setButtonDisabled] = React.useState<boolean>(false);
+
+  const customer = useCustomerValidation({
+    name: customerName,
+    age: customerAge,
+  });
 
   React.useEffect(() => {
     if (create.isCreating === true) {
@@ -66,18 +75,13 @@ export const CustomerCreate: React.FC = () => {
       return;
     }
 
-    if (customerName === undefined) {
-      setButtonDisabled(true);
-      return;
-    }
-
-    if (customerAge === undefined) {
+    if (customer.isValid === false) {
       setButtonDisabled(true);
       return;
     }
 
     setButtonDisabled(false);
-  }, [customerName, customerAge, create.isCreating]);
+  }, [create.isCreating, customer.isValid]);
 
   React.useEffect(() => {
     if (create.customerCreated === undefined) {
@@ -112,9 +116,9 @@ export const CustomerCreate: React.FC = () => {
           ref={customerAgeRef}
           keyboardType={'numeric'}
           placeholder={'Customer age'}
-          value={customerAge}
+          value={customerAge?.toString()}
           onChangeText={(currentText) => {
-            setCustomerAge(currentText);
+            setCustomerAge(Number(currentText));
           }}
         />
         <Native.Button
@@ -122,27 +126,13 @@ export const CustomerCreate: React.FC = () => {
           title="Create"
           disabled={isButtonDisabled}
           onPress={() => {
-            if (customerName === undefined) {
-              console.debug('Customer name is undefined');
-              return;
+            // https://github.com/callstack/react-native-testing-library/issues/28
+            if (customer.isValid === true) {
+              create.create({
+                name: customerName!,
+                age: customerAge!,
+              });
             }
-
-            if (customerAge === undefined) {
-              console.debug('Customer age is undefined');
-              return;
-            }
-
-            const customerAgeNumber = Number(customerAge);
-
-            if (isNaN(customerAgeNumber)) {
-              console.debug('Customer age is not a number');
-              return;
-            }
-
-            create.create({
-              name: customerName,
-              age: customerAgeNumber,
-            });
           }}
         />
       </Native.View>

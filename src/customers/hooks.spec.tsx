@@ -1,6 +1,10 @@
 import * as TestingLibrary from '@testing-library/react-hooks';
 
-import { useListFeature, useCreateFeature } from './hooks';
+import {
+  useListFeature,
+  useCreateFeature,
+  useCustomerValidation,
+} from './hooks';
 
 import {
   mockCustomer,
@@ -105,5 +109,48 @@ describe('useCreateFeature', () => {
     expect(hook.result.current.isCreating).toBeFalsy();
     expect(hook.result.current.customerCreated).toBeUndefined();
     expect(mockCustomerApiClientCreateError).toHaveBeenCalled();
+  });
+});
+
+describe('useCustomerValidation', () => {
+  test('Name is required', async () => {
+    const hook = TestingLibrary.renderHook(() =>
+      useCustomerValidation({
+        ...mockCustomer,
+        name: undefined,
+      }),
+    );
+
+    expect(hook.result.current.isValid).toStrictEqual(false);
+  });
+
+  test('Age is required', async () => {
+    const hook = TestingLibrary.renderHook(() =>
+      useCustomerValidation({
+        ...mockCustomer,
+        age: undefined,
+      }),
+    );
+
+    expect(hook.result.current.isValid).toStrictEqual(false);
+  });
+
+  test('Age must be an integer', async () => {
+    const hook = TestingLibrary.renderHook(() =>
+      useCustomerValidation({
+        ...mockCustomer,
+        age: 2.5,
+      }),
+    );
+
+    expect(hook.result.current.isValid).toStrictEqual(false);
+  });
+
+  test('Both name and age are valid', async () => {
+    const hook = TestingLibrary.renderHook(() =>
+      useCustomerValidation(mockCustomer),
+    );
+
+    expect(hook.result.current.isValid).toStrictEqual(true);
   });
 });

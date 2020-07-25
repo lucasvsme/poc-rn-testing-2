@@ -67,3 +67,29 @@ export function useCreateFeature(customerApiClient: CustomerApiClient) {
 
   return { customerCreated, create, isCreating, error };
 }
+
+export function useCustomerValidation(customer: Partial<Customer>) {
+  const [isValid, setValid] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (customer.name === undefined) {
+      setValid(false);
+      return;
+    }
+
+    const age = Number(customer.age);
+    if (Number.isNaN(age)) {
+      setValid(false);
+      return;
+    }
+
+    if (!Number.isInteger(age)) {
+      setValid(false);
+      return;
+    }
+
+    setValid(true);
+  }, [customer.name, customer.age]);
+
+  return { isValid };
+}
