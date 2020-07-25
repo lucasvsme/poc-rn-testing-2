@@ -6,12 +6,13 @@ import * as TestingLibrary from 'react-native-testing-library';
 
 import { AppContext } from '../context';
 
-import { CustomersList, CustomerCreate } from './component';
+import { CustomersList, CustomerCreate, CustomersView } from './component';
 import {
   mockCustomer,
   mockCustomerApiClient,
   mockCustomerApiClientFindAll,
   mockCustomerApiClientCreate,
+  mockCustomerApiClientFindAllOnSecondCall,
 } from './fixtures';
 
 beforeEach(() => {
@@ -37,7 +38,6 @@ describe('CustomersList', () => {
     });
 
     const items = component.queryAllByTestId('customers-list-list-item');
-
     expect(items).toHaveLength(1);
     expect(mockCustomerApiClientFindAll).toHaveBeenCalledTimes(1);
   });
@@ -170,5 +170,44 @@ describe('CustomerCreate', () => {
     });
 
     expect(mockCustomerApiClientCreate).toHaveBeenCalled();
+  });
+});
+
+describe('CustomersView', () => {
+  test('Updating list after customer creation', async () => {
+    const component = TestingLibrary.render(
+      <AppContext.Provider
+        value={{
+          customerApi: {
+            ...mockCustomerApiClient,
+            create: mockCustomerApiClientCreate,
+            findAll: mockCustomerApiClientFindAllOnSecondCall,
+          },
+        }}>
+        <CustomersView />
+      </AppContext.Provider>,
+    );
+
+    const name = await component.findByTestId('customer-create-input-name');
+    TestingLibrary.fireEvent.changeText(name, mockCustomer.name);
+
+    const age = await component.findByTestId('customer-create-input-age');
+    TestingLibrary.fireEvent.changeText(age, mockCustomer.age.toString());
+
+    await TestingLibrary.act(async () => {
+      const button = await component.findByTestId('customer-create-button');
+      TestingLibrary.fireEvent.press(button);
+    });
+
+    await TestingLibrary.waitFor(() => {
+      return expect(
+        component.getByTestId('customers-list-list-item'),
+      ).toBeTruthy();
+    });
+
+    const items = component.getAllByTestId('customers-list-list-item');
+
+    expect(items).toHaveLength(1);
+    expect(mockCustomerApiClientFindAllOnSecondCall).toHaveBeenCalledTimes(2);
   });
 });

@@ -37,6 +37,11 @@ export const mockCustomerApiClientFindAllError = jest
   .fn()
   .mockRejectedValue(Error('findAll'));
 
+export const mockCustomerApiClientFindAllOnSecondCall = jest
+  .fn()
+  .mockResolvedValueOnce([])
+  .mockResolvedValueOnce([mockExistingCustomer]);
+
 export const mockCustomerContextSetExistingCustomers = jest.fn();
 
 export const mockCustomerContextSetLatestCustomer = jest.fn();
