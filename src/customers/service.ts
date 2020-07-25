@@ -2,7 +2,7 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 
 import { Customer, ExistingCustomer } from './types';
 
-type Customers = {
+export type Customers = {
   customers: ExistingCustomer[];
 };
 
