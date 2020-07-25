@@ -59,6 +59,11 @@ export const CustomerCreate: React.FC = () => {
   const [isButtonDisabled, setButtonDisabled] = React.useState<boolean>(false);
 
   React.useEffect(() => {
+    if (create.isCreating === true) {
+      setButtonDisabled(true);
+      return;
+    }
+
     if (customerName === undefined) {
       setButtonDisabled(true);
       return;
@@ -70,7 +75,7 @@ export const CustomerCreate: React.FC = () => {
     }
 
     setButtonDisabled(false);
-  }, [customerName, customerAge]);
+  }, [customerName, customerAge, create.isCreating]);
 
   React.useEffect(() => {
     if (create.customerCreated === undefined) {
