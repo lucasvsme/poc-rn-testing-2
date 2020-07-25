@@ -8,7 +8,6 @@
     "declaration": true,                   
     "removeComments": true,                
     "noEmit": true,                           
-    "incremental": true,                      
     "isolatedModules": true,                  
     "strict": true,                           
     "noImplicitAny": true,                 
