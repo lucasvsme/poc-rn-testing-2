@@ -1,6 +1,8 @@
 import React from 'react';
 import Native from 'react-native';
 
+import { AppContext } from '../context';
+
 import { CustomerContext } from './context';
 import {
   useListFeature,
@@ -8,10 +10,27 @@ import {
   useCustomerValidation,
 } from './hooks';
 import { CustomersStyle } from './style';
+import { ExistingCustomer } from './types';
 
 export const CustomersList: React.FC = () => {
+  const app = React.useContext(AppContext);
   const context = React.useContext(CustomerContext);
-  const list = useListFeature(context.client);
+
+  const list = useListFeature(app.customerApi);
+
+  React.useEffect(() => {
+    list.fetch();
+  }, []);
+
+  React.useEffect(() => {
+    if (context.latestCustomer !== undefined) {
+      list.fetch();
+    }
+  }, [context.latestCustomer]);
+
+  React.useEffect(() => {
+    context.setExistingCustomers(list.customers);
+  }, [list.customers]);
 
   return (
     <React.Fragment>
@@ -54,8 +73,10 @@ export const CustomersList: React.FC = () => {
 };
 
 export const CustomerCreate: React.FC = () => {
+  const app = React.useContext(AppContext);
   const context = React.useContext(CustomerContext);
-  const create = useCreateFeature(context.client);
+
+  const create = useCreateFeature(app.customerApi);
 
   const customerAgeRef = React.useRef<Native.TextInput>(null);
 
@@ -91,7 +112,7 @@ export const CustomerCreate: React.FC = () => {
     setCustomerName(undefined);
     setCustomerAge(undefined);
 
-    console.debug('Customer created', create.customerCreated.id);
+    context.setLatestCustomer(create.customerCreated);
   }, [create.customerCreated]);
 
   return (
@@ -143,16 +164,32 @@ export const CustomerCreate: React.FC = () => {
 export const CustomersView: React.FC = () => {
   const window = Native.useWindowDimensions();
 
+  const [existingCustomers, setExistingCustomers] = React.useState<
+    ExistingCustomer[]
+  >([]);
+  const [latestCustomer, setLatestCustomer] = React.useState<
+    ExistingCustomer
+  >();
+
   return (
     <React.Fragment>
-      <Native.View
-        style={{
-          width: window.width,
-          height: window.height,
+      <CustomerContext.Provider
+        value={{
+          existingCustomers,
+          setExistingCustomers,
+
+          latestCustomer,
+          setLatestCustomer,
         }}>
-        <CustomerCreate />
-        <CustomersList />
-      </Native.View>
+        <Native.View
+          style={{
+            width: window.width,
+            height: window.height,
+          }}>
+          <CustomerCreate />
+          <CustomersList />
+        </Native.View>
+      </CustomerContext.Provider>
     </React.Fragment>
   );
 };

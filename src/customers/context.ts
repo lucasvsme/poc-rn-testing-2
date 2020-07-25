@@ -1,16 +1,23 @@
 import React from 'react';
-import Axios from 'axios';
 
-import { CustomerApiClient, CustomerApiClientImpl } from './service';
+import { ExistingCustomer } from './types';
 
 export type CustomerContextType = {
-  client: CustomerApiClient;
+  existingCustomers: ExistingCustomer[];
+  setExistingCustomers(existingCustomers: ExistingCustomer[]): void;
+
+  latestCustomer?: ExistingCustomer;
+  setLatestCustomer(latestCustomer?: ExistingCustomer): void;
 };
 
 export const CustomerContext = React.createContext<CustomerContextType>({
-  client: new CustomerApiClientImpl(
-    Axios.create({
-      baseURL: 'http://localhost:8080/',
-    }),
-  ),
+  existingCustomers: [],
+  setExistingCustomers(existingCustomers) {
+    this.existingCustomers = existingCustomers;
+  },
+
+  latestCustomer: undefined,
+  setLatestCustomer(latestCustomer) {
+    this.latestCustomer = latestCustomer;
+  },
 });

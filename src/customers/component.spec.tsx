@@ -1,9 +1,9 @@
 import React from 'react';
 import * as TestingLibrary from 'react-native-testing-library';
 
-import { CustomerContext } from './context';
-import { CustomersList, CustomerCreate } from './component';
+import { AppContext } from '../context';
 
+import { CustomersList, CustomerCreate } from './component';
 import {
   mockCustomer,
   mockCustomerApiClient,
@@ -11,41 +11,51 @@ import {
   mockCustomerApiClientCreate,
 } from './fixtures';
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('CustomersList', () => {
-  test('Rendering empty list by default', async () => {
+  test('Rendering list on first render', async () => {
     const component = TestingLibrary.render(
-      <CustomerContext.Provider
+      <AppContext.Provider
         value={{
-          client: {
+          customerApi: {
             ...mockCustomerApiClient,
             findAll: mockCustomerApiClientFindAll,
           },
         }}>
         <CustomersList />
-      </CustomerContext.Provider>,
+      </AppContext.Provider>,
     );
+
+    await TestingLibrary.act(async () => {
+      // "Waiting" for the first render
+    });
 
     const items = component.queryAllByTestId('customers-list-list-item');
 
-    expect(items).toHaveLength(0);
-    expect(mockCustomerApiClientFindAll).not.toHaveBeenCalled();
+    expect(items).toHaveLength(1);
+    expect(mockCustomerApiClientFindAll).toHaveBeenCalledTimes(1);
   });
 
   test('Calling Customer service on button press', async () => {
     const component = TestingLibrary.render(
-      <CustomerContext.Provider
+      <AppContext.Provider
         value={{
-          client: {
+          customerApi: {
             ...mockCustomerApiClient,
             findAll: mockCustomerApiClientFindAll,
           },
         }}>
         <CustomersList />
-      </CustomerContext.Provider>,
+      </AppContext.Provider>,
     );
 
-    const button = await component.findByTestId('customers-list-button');
-    TestingLibrary.fireEvent.press(button);
+    await TestingLibrary.act(async () => {
+      const button = await component.findByTestId('customers-list-button');
+      TestingLibrary.fireEvent.press(button);
+    });
 
     await TestingLibrary.waitFor(() => {
       return expect(
@@ -55,22 +65,22 @@ describe('CustomersList', () => {
 
     const items = component.getAllByTestId('customers-list-list-item');
     expect(items).toHaveLength(1);
-    expect(mockCustomerApiClientFindAll).toHaveBeenCalled();
+    expect(mockCustomerApiClientFindAll).toHaveBeenCalledTimes(2);
   });
 });
 
 describe('CustomerCreate', () => {
   test('Customer name is required', async () => {
     const component = TestingLibrary.render(
-      <CustomerContext.Provider
+      <AppContext.Provider
         value={{
-          client: {
+          customerApi: {
             ...mockCustomerApiClient,
             create: mockCustomerApiClientCreate,
           },
         }}>
         <CustomerCreate />
-      </CustomerContext.Provider>,
+      </AppContext.Provider>,
     );
 
     const input = await component.findByTestId('customer-create-input-name');
@@ -84,15 +94,15 @@ describe('CustomerCreate', () => {
 
   test('Customer age is required', async () => {
     const component = TestingLibrary.render(
-      <CustomerContext.Provider
+      <AppContext.Provider
         value={{
-          client: {
+          customerApi: {
             ...mockCustomerApiClient,
             create: mockCustomerApiClientCreate,
           },
         }}>
         <CustomerCreate />
-      </CustomerContext.Provider>,
+      </AppContext.Provider>,
     );
 
     const name = await component.findByTestId('customer-create-input-name');
@@ -109,15 +119,15 @@ describe('CustomerCreate', () => {
 
   test('Customer age must be a number', async () => {
     const component = TestingLibrary.render(
-      <CustomerContext.Provider
+      <AppContext.Provider
         value={{
-          client: {
+          customerApi: {
             ...mockCustomerApiClient,
             create: mockCustomerApiClientCreate,
           },
         }}>
         <CustomerCreate />
-      </CustomerContext.Provider>,
+      </AppContext.Provider>,
     );
 
     const name = await component.findByTestId('customer-create-input-name');
@@ -134,15 +144,15 @@ describe('CustomerCreate', () => {
 
   test('Creating a customer and clearing fields', async () => {
     const component = TestingLibrary.render(
-      <CustomerContext.Provider
+      <AppContext.Provider
         value={{
-          client: {
+          customerApi: {
             ...mockCustomerApiClient,
             create: mockCustomerApiClientCreate,
           },
         }}>
         <CustomerCreate />
-      </CustomerContext.Provider>,
+      </AppContext.Provider>,
     );
 
     const name = await component.findByTestId('customer-create-input-name');
