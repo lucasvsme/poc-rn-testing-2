@@ -9,7 +9,7 @@ import {
   useCreateFeature,
   useCustomerValidation,
 } from './hooks';
-import { CustomersStyle } from './style';
+import { CustomersListStyle, CustomerCreateStyle } from './style';
 import { ExistingCustomer } from './types';
 
 export const CustomersList: React.FC = () => {
@@ -34,7 +34,7 @@ export const CustomersList: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Native.View style={CustomersStyle.listWrapper}>
+      <Native.View style={CustomersListStyle.listWrapper}>
         <Native.Button
           testID={'customers-list-button'}
           title={'Fetch'}
@@ -45,7 +45,7 @@ export const CustomersList: React.FC = () => {
         />
         <Native.FlatList
           testID={'customers-list-list'}
-          style={CustomersStyle.listFlatList}
+          style={CustomersListStyle.listFlatList}
           data={list.customers}
           keyExtractor={(customer) => {
             return customer.id;
@@ -55,11 +55,11 @@ export const CustomersList: React.FC = () => {
               <React.Fragment>
                 <Native.View
                   testID={'customers-list-list-item'}
-                  style={CustomersStyle.listItemWrapper}>
-                  <Native.Text style={CustomersStyle.listItemTextName}>
+                  style={CustomersListStyle.listItemWrapper}>
+                  <Native.Text style={CustomersListStyle.listItemTextName}>
                     {list.item.name}
                   </Native.Text>
-                  <Native.Text style={CustomersStyle.listItemTextAge}>
+                  <Native.Text style={CustomersListStyle.listItemTextAge}>
                     {`${list.item.age} years old`}
                   </Native.Text>
                 </Native.View>
@@ -117,10 +117,10 @@ export const CustomerCreate: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Native.View style={CustomersStyle.createWrapper}>
+      <Native.View style={CustomerCreateStyle.createWrapper}>
         <Native.TextInput
           testID={'customer-create-input-name'}
-          style={CustomersStyle.createTextInput}
+          style={CustomerCreateStyle.createTextInput}
           keyboardType={'default'}
           placeholder={'Customer name'}
           value={customerName}
@@ -133,7 +133,7 @@ export const CustomerCreate: React.FC = () => {
         />
         <Native.TextInput
           testID={'customer-create-input-age'}
-          style={CustomersStyle.createTextInput}
+          style={CustomerCreateStyle.createTextInput}
           ref={customerAgeRef}
           keyboardType={'numeric'}
           placeholder={'Customer age'}

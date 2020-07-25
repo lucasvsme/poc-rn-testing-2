@@ -1,6 +1,6 @@
 import Native from 'react-native';
 
-export const CustomersStyle = Native.StyleSheet.create({
+export const CustomerCreateStyle = Native.StyleSheet.create({
   createWrapper: {
     padding: 16,
   },
@@ -13,6 +13,9 @@ export const CustomersStyle = Native.StyleSheet.create({
     borderWidth: 1,
     color: 'black',
   },
+});
+
+export const CustomersListStyle = Native.StyleSheet.create({
   listWrapper: {
     paddingHorizontal: 16,
   },
