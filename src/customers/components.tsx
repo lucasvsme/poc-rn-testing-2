@@ -34,7 +34,7 @@ export const CustomersList: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Native.View style={CustomersListStyle.listWrapper}>
+      <Native.View style={CustomersListStyle.wrapper}>
         <Native.Button
           testID={'customers-list-button'}
           title={'Fetch'}
@@ -45,7 +45,7 @@ export const CustomersList: React.FC = () => {
         />
         <Native.FlatList
           testID={'customers-list-list'}
-          style={CustomersListStyle.listFlatList}
+          style={CustomersListStyle.list}
           data={list.customers}
           keyExtractor={(customer) => {
             return customer.id;
@@ -55,11 +55,11 @@ export const CustomersList: React.FC = () => {
               <React.Fragment>
                 <Native.View
                   testID={'customers-list-list-item'}
-                  style={CustomersListStyle.listItemWrapper}>
-                  <Native.Text style={CustomersListStyle.listItemTextName}>
+                  style={CustomersListStyle.item}>
+                  <Native.Text style={CustomersListStyle.textName}>
                     {list.item.name}
                   </Native.Text>
-                  <Native.Text style={CustomersListStyle.listItemTextAge}>
+                  <Native.Text style={CustomersListStyle.textAge}>
                     {`${list.item.age} years old`}
                   </Native.Text>
                 </Native.View>
@@ -117,10 +117,10 @@ export const CustomerCreate: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Native.View style={CustomerCreateStyle.createWrapper}>
+      <Native.View style={CustomerCreateStyle.wrapper}>
         <Native.TextInput
           testID={'customer-create-input-name'}
-          style={CustomerCreateStyle.createTextInput}
+          style={CustomerCreateStyle.input}
           keyboardType={'default'}
           placeholder={'Customer name'}
           value={customerName}
@@ -133,7 +133,7 @@ export const CustomerCreate: React.FC = () => {
         />
         <Native.TextInput
           testID={'customer-create-input-age'}
-          style={CustomerCreateStyle.createTextInput}
+          style={CustomerCreateStyle.input}
           ref={customerAgeRef}
           keyboardType={'numeric'}
           placeholder={'Customer age'}

@@ -1,10 +1,10 @@
 import Native from 'react-native';
 
 export const CustomerCreateStyle = Native.StyleSheet.create({
-  createWrapper: {
+  wrapper: {
     padding: 16,
   },
-  createTextInput: {
+  input: {
     borderStyle: 'solid',
     marginVertical: 8,
     paddingHorizontal: 16,
@@ -16,21 +16,21 @@ export const CustomerCreateStyle = Native.StyleSheet.create({
 });
 
 export const CustomersListStyle = Native.StyleSheet.create({
-  listWrapper: {
+  wrapper: {
     paddingHorizontal: 16,
   },
-  listFlatList: {
+  list: {
     paddingVertical: 8,
   },
-  listItemWrapper: {
+  item: {
     paddingHorizontal: 8,
     paddingVertical: 8,
   },
-  listItemTextName: {
+  textName: {
     fontWeight: 'bold',
     fontSize: 16,
   },
-  listItemTextAge: {
+  textAge: {
     fontStyle: 'italic',
     fontSize: 14,
   },
