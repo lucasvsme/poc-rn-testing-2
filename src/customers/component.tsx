@@ -53,6 +53,8 @@ export const CustomerCreate: React.FC = () => {
   const context = React.useContext(CustomerContext);
   const create = useCreateFeature(context.client);
 
+  const customerAgeRef = React.useRef<Native.TextInput>(null);
+
   const [customerName, setCustomerName] = React.useState<string>();
   const [customerAge, setCustomerAge] = React.useState<string>();
 
@@ -100,10 +102,14 @@ export const CustomerCreate: React.FC = () => {
           onChangeText={(currentText) => {
             setCustomerName(currentText);
           }}
+          onSubmitEditing={() => {
+            customerAgeRef.current?.focus();
+          }}
         />
         <Native.TextInput
           testID={'customer-create-input-age'}
           style={CustomersStyle.createTextInput}
+          ref={customerAgeRef}
           keyboardType={'numeric'}
           placeholder={'Customer age'}
           value={customerAge}
