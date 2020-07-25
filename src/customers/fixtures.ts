@@ -1,3 +1,4 @@
+import { CustomerContextType } from './context';
 import { Customers, CustomerApiClient } from './service';
 import { Customer, ExistingCustomer } from './types';
 
@@ -35,3 +36,20 @@ export const mockCustomerApiClientFindAll = jest
 export const mockCustomerApiClientFindAllError = jest
   .fn()
   .mockRejectedValue(Error('findAll'));
+
+export const mockCustomerContextSetExistingCustomers = jest.fn();
+
+export const mockCustomerContextSetLatestCustomer = jest.fn();
+
+export const mockCustomerContext: CustomerContextType = {
+  existingCustomers: [],
+  setExistingCustomers(existingCustomers) {
+    mockCustomerContextSetExistingCustomers(existingCustomers);
+    this.existingCustomers = existingCustomers;
+  },
+  latestCustomer: undefined,
+  setLatestCustomer(latestCustomer) {
+    mockCustomerContextSetLatestCustomer(latestCustomer);
+    this.latestCustomer = latestCustomer;
+  },
+};
