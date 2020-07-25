@@ -16,6 +16,8 @@
   "devDependencies": {
     "@babel/core": "7.9.6",
     "@babel/runtime": "7.9.6",
+    "@testing-library/react-hooks": "3.4.1",
+    "@testing-library/react-native": "6.0.0",
     "@types/jest": "25.2.1",
     "@types/react-native": "0.62.7",
     "@types/react-test-renderer": "16.9.2",
@@ -37,7 +39,7 @@
   },
   "jest": {
     "preset": "react-native",
-    "collectCoverage": true,
+    "collectCoverage": false,
     "transform": {
       "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
     }
