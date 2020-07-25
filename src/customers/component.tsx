@@ -55,12 +55,29 @@ export const CustomerCreate: React.FC = () => {
   const [customerName, setCustomerName] = React.useState<string>();
   const [customerAge, setCustomerAge] = React.useState<string>();
 
-  const [isButtonDisabled] = React.useState<boolean>(false);
+  const [isButtonDisabled, setButtonDisabled] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (customerName === undefined) {
+      setButtonDisabled(true);
+      return;
+    }
+
+    if (customerAge === undefined) {
+      setButtonDisabled(true);
+      return;
+    }
+
+    setButtonDisabled(false);
+  }, [customerName, customerAge]);
 
   React.useEffect(() => {
     if (create.customerCreated === undefined) {
       return;
     }
+
+    setCustomerName(undefined);
+    setCustomerAge(undefined);
 
     console.debug('Customer created', create.customerCreated.id);
   }, [create.customerCreated]);
@@ -83,6 +100,7 @@ export const CustomerCreate: React.FC = () => {
           style={CustomersStyle.createTextInput}
           keyboardType={'numeric'}
           placeholder={'Customer age'}
+          value={customerAge}
           onChangeText={(currentText) => {
             setCustomerAge(currentText);
           }}
@@ -91,7 +109,7 @@ export const CustomerCreate: React.FC = () => {
           testID={'customer-create-button'}
           title="Create"
           disabled={isButtonDisabled}
-          onPress={(): void => {
+          onPress={() => {
             if (customerName === undefined) {
               console.debug('Customer name is undefined');
               return;
@@ -113,9 +131,6 @@ export const CustomerCreate: React.FC = () => {
               name: customerName,
               age: customerAgeNumber,
             });
-
-            setCustomerName(undefined);
-            setCustomerAge(undefined);
           }}
         />
       </Native.View>
