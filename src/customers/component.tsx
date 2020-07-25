@@ -22,6 +22,7 @@ export const CustomersList: React.FC = () => {
         <Native.FlatList
           testID={'customers-list-list'}
           style={CustomersStyle.listFlatList}
+          initialNumToRender={0}
           data={list.customers}
           keyExtractor={(customer) => {
             return customer.id;
