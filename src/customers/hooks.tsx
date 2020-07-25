@@ -17,10 +17,12 @@ export function useListFeature(customerApiClient: CustomerApiClient) {
       .findAll()
       .then((allCustomers) => {
         setCustomers(allCustomers);
-        setFetching(false);
       })
       .catch((error) => {
         setError(error);
+      })
+      .finally(() => {
+        setFetching(false);
       });
   }, [isFetching, setFetching, setCustomers]);
 
@@ -48,12 +50,14 @@ export function useCreateFeature(customerApiClient: CustomerApiClient) {
     customerApiClient
       .create(customer)
       .then((existingCustomer) => {
-        setCreating(false);
         setCustomer(undefined);
         setCustomerCreated(existingCustomer);
       })
       .catch((error) => {
         setError(error);
+      })
+      .finally(() => {
+        setCreating(false);
       });
   }, [customer, setCustomer]);
 

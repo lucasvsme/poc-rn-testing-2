@@ -1,4 +1,4 @@
-import { Customers } from './service';
+import { Customers, CustomerApiClient } from './service';
 import { Customer, ExistingCustomer } from './types';
 
 export const mockCustomer: Customer = {
@@ -14,3 +14,24 @@ export const mockExistingCustomer: ExistingCustomer = {
 export const mockCustomers: Customers = {
   customers: [mockExistingCustomer],
 };
+
+export const mockCustomerApiClient: CustomerApiClient = {
+  create: jest.fn(),
+  findAll: jest.fn(),
+};
+
+export const mockCustomerApiClientCreate = jest
+  .fn()
+  .mockResolvedValue(mockExistingCustomer);
+
+export const mockCustomerApiClientCreateError = jest
+  .fn()
+  .mockRejectedValue(Error('create'));
+
+export const mockCustomerApiClientFindAll = jest
+  .fn()
+  .mockResolvedValue([mockExistingCustomer]);
+
+export const mockCustomerApiClientFindAllError = jest
+  .fn()
+  .mockRejectedValue(Error('findAll'));
