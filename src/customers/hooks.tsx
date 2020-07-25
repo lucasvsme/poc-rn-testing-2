@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CustomerApiClient } from './service';
+import { CustomerApiClient } from './api';
 import { Customer, ExistingCustomer } from './types';
 
 export function useListFeature(customerApiClient: CustomerApiClient) {

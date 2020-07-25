@@ -1,5 +1,5 @@
 import { CustomerContextType } from './context';
-import { Customers, CustomerApiClient } from './service';
+import { Customers, CustomerApiClient } from './api';
 import { Customer, ExistingCustomer } from './types';
 
 export const mockCustomer: Customer = {

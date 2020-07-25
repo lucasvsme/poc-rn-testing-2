@@ -1,7 +1,7 @@
 import Axios, { AxiosInstance } from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-import { CustomerApiClient, CustomerApiClientImpl } from './service';
+import { CustomerApiClient, CustomerApiClientImpl } from './api';
 import { mockCustomer, mockExistingCustomer, mockCustomers } from './fixtures';
 
 const httpClient: AxiosInstance = Axios.create();

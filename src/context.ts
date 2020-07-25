@@ -1,7 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 
-import { CustomerApiClient, CustomerApiClientImpl } from './customers/service';
+import { CustomerApiClient, CustomerApiClientImpl } from './customers/api';
 
 export type AppContextType = {
   customerApi: CustomerApiClient;
