@@ -6,7 +6,8 @@
     "android": "react-native run-android",
     "start": "react-native start",
     "test": "jest",
-    "build": "cd android/ && ./gradlew assembleRelease"
+    "build": "cd android/ && ./gradlew assembleRelease",
+    "forward": "adb reverse tcp:8080 tcp:8080"
   },
   "dependencies": {
     "axios": "0.19.2",
