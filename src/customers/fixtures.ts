@@ -1,4 +1,3 @@
-import { CustomerContextType } from './context';
 import { Customers, CustomerApiClient } from './api';
 import { Customer, ExistingCustomer } from './types';
 
