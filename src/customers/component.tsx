@@ -22,7 +22,6 @@ export const CustomersList: React.FC = () => {
         <Native.FlatList
           testID={'customers-list-list'}
           style={CustomersStyle.listFlatList}
-          initialNumToRender={0}
           data={list.customers}
           keyExtractor={(customer) => {
             return customer.id;
@@ -30,9 +29,15 @@ export const CustomersList: React.FC = () => {
           renderItem={(list) => {
             return (
               <React.Fragment>
-                <Native.View testID={'customers-list-list-item'}>
-                  <Native.Text>{list.item.name}</Native.Text>
-                  <Native.Text>{list.item.age}</Native.Text>
+                <Native.View
+                  testID={'customers-list-list-item'}
+                  style={CustomersStyle.listItemWrapper}>
+                  <Native.Text style={CustomersStyle.listItemTextName}>
+                    {list.item.name}
+                  </Native.Text>
+                  <Native.Text style={CustomersStyle.listItemTextAge}>
+                    {`${list.item.age} years old`}
+                  </Native.Text>
                 </Native.View>
               </React.Fragment>
             );
@@ -66,6 +71,7 @@ export const CustomerCreate: React.FC = () => {
         <Native.TextInput
           testID={'customer-create-input-name'}
           style={CustomersStyle.createTextInput}
+          keyboardType={'default'}
           placeholder={'Customer name'}
           value={customerName}
           onChangeText={(currentText) => {
@@ -75,8 +81,8 @@ export const CustomerCreate: React.FC = () => {
         <Native.TextInput
           testID={'customer-create-input-age'}
           style={CustomersStyle.createTextInput}
+          keyboardType={'numeric'}
           placeholder={'Customer age'}
-          value={customerAge}
           onChangeText={(currentText) => {
             setCustomerAge(currentText);
           }}
@@ -118,9 +124,15 @@ export const CustomerCreate: React.FC = () => {
 };
 
 export const CustomersView: React.FC = () => {
+  const window = Native.useWindowDimensions();
+
   return (
     <React.Fragment>
-      <Native.View style={CustomersStyle.wrapper}>
+      <Native.View
+        style={{
+          width: window.width,
+          height: window.height,
+        }}>
         <CustomerCreate />
         <CustomersList />
       </Native.View>
