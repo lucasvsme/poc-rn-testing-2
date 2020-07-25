@@ -49,6 +49,14 @@ export const CustomerCreate: React.FC = () => {
 
   const [isButtonDisabled] = React.useState<boolean>(false);
 
+  React.useEffect(() => {
+    if (create.customerCreated === undefined) {
+      return;
+    }
+
+    console.debug('Customer created', create.customerCreated.id);
+  }, [create.customerCreated]);
+
   return (
     <React.Fragment>
       <Native.View style={CustomersStyle.createWrapper}>
