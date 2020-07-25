@@ -6,7 +6,7 @@ import * as TestingLibrary from 'react-native-testing-library';
 
 import { AppContext } from '../context';
 
-import { CustomersList, CustomerCreate, CustomersView } from './component';
+import { CustomersList, CustomerCreate, CustomersView } from './components';
 import {
   mockCustomer,
   mockCustomerApiClient,
