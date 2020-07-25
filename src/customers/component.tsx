@@ -15,6 +15,7 @@ export const CustomersList: React.FC = () => {
         <Native.Button
           testID={'customers-list-button'}
           title={'Fetch'}
+          disabled={list.isFetching}
           onPress={() => {
             list.fetch();
           }}
