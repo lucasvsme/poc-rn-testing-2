@@ -1,3 +1,4 @@
+export * from './context';
 export * from './component';
 export * from './hooks';
 export * from './service';
