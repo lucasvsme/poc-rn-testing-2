@@ -9,7 +9,7 @@ import {
   useCreateFeature,
   useCustomerValidation,
 } from './hooks';
-import { CustomersListStyle, CustomerCreateStyle } from './style';
+import { CustomersListStyle, CustomerCreateStyle } from './styles';
 import { ExistingCustomer } from './types';
 
 export const CustomersList: React.FC = () => {
