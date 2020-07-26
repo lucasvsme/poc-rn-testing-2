@@ -3,9 +3,6 @@ API = "28"
 FOLDER = "$$(pwd)/emulator"
 SERIAL = "$$(adb get-serialno)"
 
-VARIANT = "release"
-API_PORT = "8080"
-
 install:
 	@touch ~/.android/repositories.cfg
 	@sdkmanager --install "tools"
@@ -28,6 +25,9 @@ device:
 	@emulator -avd $(NAME) -no-snapshot -no-boot-anim -no-audio
 
 
+VARIANT = "release"
+API_PORT = "8080"
+
 e2e-build:
 	@./node_modules/.bin/detox build --configuration android.emu.$(VARIANT)
 
@@ -37,3 +37,7 @@ e2e-test:
 			--record-videos all \
 			--loglevel verbose \
 			--device-name $(NAME) \
+
+backend-run:
+	@npm --prefix ./backend install
+	@PORT=$(API_PORT) npm --prefix ./backend start

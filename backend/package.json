@@ -1,0 +1,81 @@
+{
+  "name": "node-template",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "nodemon index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "14.0.24",
+    "@typescript-eslint/eslint-plugin": "3.7.0",
+    "@typescript-eslint/parser": "3.7.0",
+    "autocannon": "5.0.1",
+    "eslint": "7.5.0",
+    "eslint-config-prettier": "6.11.0",
+    "husky": "4.2.5",
+    "lint-staged": "10.2.11",
+    "nodemon": "2.0.4",
+    "prettier": "2.0.5",
+    "ts-node": "8.10.2",
+    "typescript": "3.9.7"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "ext": "ts",
+    "ignore": [
+      "src/**/*.spec.ts"
+    ],
+    "exec": "ts-node ./index.ts"
+  },
+  "eslintConfig": {
+    "root": true,
+    "ignorePatterns": [
+      "dist/",
+      "node_modules/",
+      "package.json"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:@typescript-eslint/recommended-requiring-type-checking",
+      "prettier/@typescript-eslint"
+    ],
+    "parserOptions": {
+      "project": [
+        "./tsconfig.json"
+      ]
+    },
+    "rules": {
+      "@typescript-eslint/no-misused-promises": 0
+    }
+  },
+  "prettier": {
+    "parser": "typescript",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": false,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "arrowParens": "always"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
+}
