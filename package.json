@@ -18,6 +18,7 @@
     "@babel/core": "7.9.6",
     "@babel/runtime": "7.9.6",
     "@testing-library/react-hooks": "3.4.1",
+    "@types/detox": "16.4.1",
     "@types/jest": "25.2.1",
     "@types/react-native": "0.62.7",
     "@types/react-test-renderer": "16.9.2",
@@ -25,12 +26,14 @@
     "@typescript-eslint/parser": "2.31.0",
     "axios-mock-adapter": "1.18.2",
     "babel-jest": "26.0.1",
+    "detox": "17.2.1",
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-react": "7.19.0",
     "eslint-plugin-react-hooks": "4.0.0",
     "husky": "4.2.5",
     "jest": "26.0.1",
+    "jest-circus": "26.0.1",
     "lint-staged": "10.2.2",
     "metro-react-native-babel-preset": "0.59.0",
     "prettier": "2.0.5",
@@ -98,7 +101,8 @@
       "react/prop-types": 0,
       "@typescript-eslint/require-await": 0,
       "@typescript-eslint/explicit-function-return-type": 0,
-      "@typescript-eslint/no-misused-promises": 0
+      "@typescript-eslint/no-misused-promises": 0,
+      "@typescript-eslint/ban-ts-ignore": 0
     }
   },
   "husky": {
@@ -111,5 +115,28 @@
       "eslint --fix",
       "prettier --write"
     ]
+  },
+  "detox": {
+    "testRunner": "jest",
+    "runnerConfig": "e2e/config.json",
+    "configurations": {
+      "android.emu.debug": {
+        "binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk",
+        "build":
+        "cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
+        "type": "android.emulator",
+        "device": {
+          "avdName": "poc-android-testing"
+        }
+      },
+      "android.emu.release": {
+        "binaryPath": "android/app/build/outputs/apk/release/app-release.apk",
+        "build": "cd android && ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release && cd ..",
+        "type": "android.emulator",
+        "device": {
+          "avdName": "poc-android-testing"
+        }
+      }
+    }
   }
 }

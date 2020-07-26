@@ -13,3 +13,5 @@ npm-debug.log
 *.keystore
 !debug.keystore
 coverage/
+artifacts/
+emulator/
