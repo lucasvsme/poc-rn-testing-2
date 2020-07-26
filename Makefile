@@ -38,6 +38,8 @@ e2e-test:
 			--loglevel verbose \
 			--device-name $(NAME) \
 
+e2e-run: e2e-build e2e-test
+
 backend-run:
 	@npm --prefix ./backend install
 	@PORT=$(API_PORT) npm --prefix ./backend start
