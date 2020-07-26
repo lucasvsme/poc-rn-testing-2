@@ -45,14 +45,6 @@ export const CustomersList: React.FC = () => {
   return (
     <React.Fragment>
       <Native.View style={CustomersListStyle.wrapper}>
-        <Native.Button
-          testID={'customers-list-button'}
-          title={'Fetch'}
-          disabled={list.isFetching}
-          onPress={() => {
-            list.fetch();
-          }}
-        />
         <Native.FlatList
           testID={'customers-list-list'}
           style={CustomersListStyle.list}

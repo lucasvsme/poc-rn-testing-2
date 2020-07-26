@@ -43,35 +43,6 @@ describe('CustomersList', () => {
     expect(mockCustomerApiClientFindAll).toHaveBeenCalledTimes(1);
   });
 
-  test('Calling Customer service on button press', async () => {
-    const component = TestingLibrary.render(
-      <AppContext.Provider
-        value={{
-          customerApi: {
-            ...mockCustomerApiClient,
-            findAll: mockCustomerApiClientFindAll,
-          },
-        }}>
-        <CustomersList />
-      </AppContext.Provider>,
-    );
-
-    await TestingLibrary.act(async () => {
-      const button = await component.findByTestId('customers-list-button');
-      TestingLibrary.fireEvent.press(button);
-    });
-
-    await TestingLibrary.waitFor(() => {
-      return expect(
-        component.getByTestId('customers-list-list-item'),
-      ).toBeTruthy();
-    });
-
-    const items = component.getAllByTestId('customers-list-list-item');
-    expect(items).toHaveLength(1);
-    expect(mockCustomerApiClientFindAll).toHaveBeenCalledTimes(2);
-  });
-
   test('Calling Customer service on list item press', async () => {
     const component = TestingLibrary.render(
       <AppContext.Provider
