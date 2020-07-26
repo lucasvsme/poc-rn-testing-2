@@ -8,6 +8,7 @@ import {
   useListFeature,
   useCreateFeature,
   useCustomerValidation,
+  useRemoveFeature,
 } from './hooks';
 import { CustomersListStyle, CustomerCreateStyle } from './styles';
 import { ExistingCustomer } from './types';
@@ -17,6 +18,7 @@ export const CustomersList: React.FC = () => {
   const context = React.useContext(CustomerContext);
 
   const list = useListFeature(app.customerApi);
+  const remove = useRemoveFeature(app.customerApi);
 
   React.useEffect(() => {
     list.fetch();
@@ -31,6 +33,14 @@ export const CustomersList: React.FC = () => {
   React.useEffect(() => {
     context.setExistingCustomers(list.customers);
   }, [list.customers]);
+
+  React.useEffect(() => {
+    if (remove.isRemoving === false) {
+      return;
+    }
+
+    list.fetch();
+  }, [remove.customerId, remove.isRemoving]);
 
   return (
     <React.Fragment>
@@ -53,15 +63,21 @@ export const CustomersList: React.FC = () => {
           renderItem={(list) => {
             return (
               <React.Fragment>
-                <Native.View
-                  testID={'customers-list-list-item'}
-                  style={CustomersListStyle.item}>
-                  <Native.Text style={CustomersListStyle.textName}>
-                    {list.item.name}
-                  </Native.Text>
-                  <Native.Text style={CustomersListStyle.textAge}>
-                    {`${list.item.age} years old`}
-                  </Native.Text>
+                <Native.View testID={'customers-list-list-item'}>
+                  <Native.TouchableWithoutFeedback
+                    testID={'customers-list-list-item-wrapper'}
+                    onPress={() => {
+                      remove.remove(list.item.id);
+                    }}>
+                    <Native.View style={CustomersListStyle.item}>
+                      <Native.Text style={CustomersListStyle.textName}>
+                        {list.item.name}
+                      </Native.Text>
+                      <Native.Text style={CustomersListStyle.textAge}>
+                        {`${list.item.age} years old`}
+                      </Native.Text>
+                    </Native.View>
+                  </Native.TouchableWithoutFeedback>
                 </Native.View>
               </React.Fragment>
             );

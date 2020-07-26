@@ -4,6 +4,7 @@ import {
   useListFeature,
   useCreateFeature,
   useCustomerValidation,
+  useRemoveFeature,
 } from './hooks';
 import {
   mockCustomer,
@@ -13,6 +14,8 @@ import {
   mockCustomerApiClientFindAllError,
   mockCustomerApiClientCreate,
   mockCustomerApiClientCreateError,
+  mockCustomerApiClientRemove,
+  mockCustomerApiClientRemoveError,
 } from './fixtures';
 
 describe('useListFeature', () => {
@@ -151,5 +154,51 @@ describe('useCustomerValidation', () => {
     );
 
     expect(hook.result.current.isValid).toStrictEqual(true);
+  });
+});
+
+describe('useRemoveFeature', () => {
+  test('Removing customer by its ID', async () => {
+    const hook = TestingLibrary.renderHook(() =>
+      useRemoveFeature({
+        ...mockCustomerApiClient,
+        remove: mockCustomerApiClientRemove,
+      }),
+    );
+
+    await TestingLibrary.act(async () => {
+      return hook.result.current.remove(mockExistingCustomer.id);
+    });
+
+    expect(hook.result.current.error).toBeUndefined();
+    expect(hook.result.current.isRemoving).toStrictEqual(false);
+    expect(hook.result.current.customerId).toStrictEqual(
+      mockExistingCustomer.id,
+    );
+    expect(mockCustomerApiClientRemove).toHaveBeenCalledTimes(1);
+  });
+
+  test('Setting error object when the HTTP request failed', async () => {
+    const hook = TestingLibrary.renderHook(() =>
+      useRemoveFeature({
+        ...mockCustomerApiClient,
+        remove: mockCustomerApiClientRemoveError,
+      }),
+    );
+
+    await TestingLibrary.act(async () => {
+      return hook.result.current.remove(mockExistingCustomer.id);
+    });
+
+    await hook.waitForValueToChange(async () => {
+      return hook.result.current.error;
+    });
+
+    expect(hook.result.current.error).toStrictEqual(Error('remove'));
+    expect(hook.result.current.isRemoving).toBeFalsy();
+    expect(hook.result.current.customerId).toStrictEqual(
+      mockExistingCustomer.id,
+    );
+    expect(mockCustomerApiClientRemoveError).toHaveBeenCalled();
   });
 });

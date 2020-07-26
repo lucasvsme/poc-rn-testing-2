@@ -3,6 +3,34 @@ import React from 'react';
 import { CustomerApiClient } from './api';
 import { Customer, ExistingCustomer } from './types';
 
+export function useRemoveFeature(customerApiClient: CustomerApiClient) {
+  const [isRemoving, setRemoving] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<Error>();
+  const [customerId, setCustomerId] = React.useState<string>();
+
+  React.useEffect(() => {
+    if (isRemoving === false) {
+      return;
+    }
+
+    customerApiClient
+      .remove(customerId!)
+      .catch((error) => {
+        setError(error);
+      })
+      .finally(() => {
+        setRemoving(false);
+      });
+  }, [isRemoving, setRemoving]);
+
+  const remove = (customerId: string) => {
+    setCustomerId(customerId);
+    setRemoving(true);
+  };
+
+  return { remove, isRemoving, error, customerId };
+}
+
 export function useListFeature(customerApiClient: CustomerApiClient) {
   const [customers, setCustomers] = React.useState<ExistingCustomer[]>([]);
   const [isFetching, setFetching] = React.useState<boolean>(false);

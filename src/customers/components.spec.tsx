@@ -11,8 +11,9 @@ import {
   mockCustomer,
   mockCustomerApiClient,
   mockCustomerApiClientFindAll,
-  mockCustomerApiClientCreate,
   mockCustomerApiClientFindAllOnSecondCall,
+  mockCustomerApiClientCreate,
+  mockCustomerApiClientRemove,
 } from './fixtures';
 
 beforeEach(() => {
@@ -69,6 +70,40 @@ describe('CustomersList', () => {
     const items = component.getAllByTestId('customers-list-list-item');
     expect(items).toHaveLength(1);
     expect(mockCustomerApiClientFindAll).toHaveBeenCalledTimes(2);
+  });
+
+  test('Calling Customer service on list item press', async () => {
+    const component = TestingLibrary.render(
+      <AppContext.Provider
+        value={{
+          customerApi: {
+            ...mockCustomerApiClient,
+            findAll: mockCustomerApiClientFindAll,
+            remove: mockCustomerApiClientRemove,
+          },
+        }}>
+        <CustomersList />
+      </AppContext.Provider>,
+    );
+
+    await TestingLibrary.act(async () => {
+      // "Waiting" for the first render
+    });
+
+    await TestingLibrary.waitFor(() => {
+      return expect(
+        component.getByTestId('customers-list-list-item'),
+      ).toBeTruthy();
+    });
+
+    await TestingLibrary.act(async () => {
+      const item = await component.findByTestId(
+        'customers-list-list-item-wrapper',
+      );
+      TestingLibrary.fireEvent.press(item);
+    });
+
+    expect(mockCustomerApiClientRemove).toHaveBeenCalledTimes(1);
   });
 });
 

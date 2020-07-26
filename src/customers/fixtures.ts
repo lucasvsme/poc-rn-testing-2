@@ -18,6 +18,7 @@ export const mockCustomers: Customers = {
 export const mockCustomerApiClient: CustomerApiClient = {
   create: jest.fn(),
   findAll: jest.fn(),
+  remove: jest.fn(),
 };
 
 export const mockCustomerApiClientCreate = jest
@@ -40,3 +41,9 @@ export const mockCustomerApiClientFindAllOnSecondCall = jest
   .fn()
   .mockResolvedValueOnce([])
   .mockResolvedValueOnce([mockExistingCustomer]);
+
+export const mockCustomerApiClientRemove = jest.fn().mockResolvedValue({});
+
+export const mockCustomerApiClientRemoveError = jest
+  .fn()
+  .mockRejectedValue(Error('remove'));

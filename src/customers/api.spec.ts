@@ -14,7 +14,7 @@ beforeEach(() => {
 });
 
 describe('findAll', () => {
-  test('Throwing error when call did not succeeds', async () => {
+  test('Throwing error when call did not succeed', async () => {
     expect.hasAssertions();
 
     mock.onGet('/customer').reply(500);
@@ -42,7 +42,7 @@ describe('findAll', () => {
 });
 
 describe('create', () => {
-  test('Throwing error when call did not succeeds', async () => {
+  test('Throwing error when call did not succeed', async () => {
     expect.hasAssertions();
 
     mock.onPost('/customer').reply(500);
@@ -66,5 +66,32 @@ describe('create', () => {
 
     expect(existingCustomer).toStrictEqual(mockExistingCustomer);
     expect(mock.history.post).toHaveLength(1);
+  });
+});
+
+describe('remove', () => {
+  test('Throwing error when call did not succeed', async () => {
+    expect.hasAssertions();
+
+    mock.onDelete(`/customer/${mockExistingCustomer.id}`).reply(500);
+
+    try {
+      await client.remove(mockExistingCustomer.id);
+    } catch (error) {
+      expect(error.isAxiosError).toBeTruthy();
+      expect(error.response.status).toStrictEqual(500);
+      expect(error.message).toStrictEqual(
+        'Request failed with status code 500',
+      );
+      expect(mock.history.delete).toHaveLength(1);
+    }
+  });
+
+  test('Returning an existing customers', async () => {
+    mock.onDelete(`/customer/${mockExistingCustomer.id}`).reply(204);
+
+    await client.remove(mockExistingCustomer.id);
+
+    expect(mock.history.delete).toHaveLength(1);
   });
 });

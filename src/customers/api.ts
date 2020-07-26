@@ -9,6 +9,7 @@ export type Customers = {
 export interface CustomerApiClient {
   create(customer: Customer): Promise<ExistingCustomer>;
   findAll(): Promise<ExistingCustomer[]>;
+  remove(id: string): Promise<void>;
 }
 
 export class CustomerApiClientImpl implements CustomerApiClient {
@@ -24,5 +25,11 @@ export class CustomerApiClientImpl implements CustomerApiClient {
     return this.httpClient
       .get<Customers>('/customer')
       .then((response) => response.data.customers);
+  }
+
+  public async remove(id: string): Promise<void> {
+    return this.httpClient
+      .delete<void>(`/customer/${id}`)
+      .then((response) => response.data);
   }
 }
