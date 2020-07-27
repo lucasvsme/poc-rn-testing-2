@@ -1,41 +1,45 @@
 import { device, element, by, expect } from 'detox';
 
-async function delay(timeInMs: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, timeInMs);
-  });
-}
-
 beforeAll(async () => {
   //@ts-ignore
   await device.reverseTcpPort(process.env.API_PORT);
   await device.reloadReactNative();
 });
 
-// https://github.com/wix/detox/issues/209
-const customers: [string, string][] = [
-  ['John Smith', '45\n'],
-  ['Mary Jane', '67\n'],
-  ['Mike Moore', '18\n'],
-  ['Ave Yorke', '32\n'],
+type Customer = {
+  name: string;
+  age: number;
+};
+
+const customers: Customer[] = [
+  { name: 'John Smith', age: 45 },
+  { name: 'Mary Jane', age: 67 },
+  { name: 'Mike Moore', age: 18 },
 ];
 
-test('Creating customers, listing and deleting them', async () => {
-  for (const [name, age] of customers) {
-    await element(by.id('customer-create-input-name')).typeText(name);
-    await element(by.id('customer-create-input-age')).typeText(age);
-    await element(by.id('customer-create-button')).tap();
+describe('Creating and removing customers', () => {
+  test.each(customers)(
+    'Creating a customer (%s)',
+    async (customer: Customer) => {
+      // https://github.com/wix/detox/issues/209
+      const age = `${customer.age}\n`;
 
-    await expect(element(by.text(name))).toExist();
+      await element(by.id('customer-create-input-name')).typeText(
+        customer.name,
+      );
+      await element(by.id('customer-create-input-age')).typeText(age);
+      await element(by.id('customer-create-button')).tap();
 
-    await delay(500);
-  }
+      await expect(element(by.text(customer.name))).toExist();
+    },
+  );
 
-  for (const [name] of customers.reverse()) {
-    await element(by.text(name)).tap();
+  test.each(customers.reverse())(
+    'Removing a customer (%s)',
+    async (customer: Customer) => {
+      await element(by.text(customer.name)).tap();
 
-    await delay(1000);
-  }
+      await expect(element(by.text(customer.name))).toNotExist();
+    },
+  );
 });
