@@ -31,7 +31,9 @@ const create: HTTP.RequestListener = (request, response) => {
     response.statusCode = 200;
     response.setHeader("Content-Type", "application/json");
     response.write(JSON.stringify(existingCustomer));
-    response.end();
+    response.end(() => {
+      Console.debug("Customer created: %s", existingCustomer);
+    });
   });
 };
 
@@ -39,7 +41,9 @@ const findAll: HTTP.RequestListener = (_request, response) => {
   response.statusCode = 200;
   response.setHeader("Content-Type", "application/json");
   response.write(JSON.stringify({ customers }));
-  response.end();
+  response.end(() => {
+    Console.debug("Customers found: %s", JSON.stringify({ customers }));
+  });
 };
 
 const remove: HTTP.RequestListener = (request, response) => {
@@ -53,7 +57,9 @@ const remove: HTTP.RequestListener = (request, response) => {
 
   response.statusCode = 204;
   response.setHeader("Content-Type", "application/json");
-  response.end();
+  response.end(() => {
+    Console.debug("Customer removed: %s", id);
+  });
 };
 
 const server = HTTP.createServer((request, response) => {
