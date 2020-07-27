@@ -15,13 +15,16 @@ export function useRemoveFeature(customerApiClient: CustomerApiClient) {
 
     customerApiClient
       .remove(customerId!)
+      .then(() => {
+        setCustomerId(undefined);
+      })
       .catch((error) => {
         setError(error);
       })
       .finally(() => {
         setRemoving(false);
       });
-  }, [isRemoving, setRemoving]);
+  }, [isRemoving, setRemoving, setError, setCustomerId]);
 
   const remove = (customerId: string) => {
     setCustomerId(customerId);

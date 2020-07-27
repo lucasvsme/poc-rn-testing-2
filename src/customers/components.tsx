@@ -20,22 +20,30 @@ export const CustomersList: React.FC = () => {
   const list = useListFeature(app.customerApi);
   const remove = useRemoveFeature(app.customerApi);
 
+  // After rendering the component for the first time
   React.useEffect(() => {
     list.fetch();
   }, []);
 
+  // After creating a customer
   React.useEffect(() => {
     if (context.latestCustomer !== undefined) {
       list.fetch();
     }
   }, [context.latestCustomer]);
 
+  // When customers list changes (by the hook useListFeature)
   React.useEffect(() => {
     context.setExistingCustomers(list.customers);
   }, [list.customers]);
 
+  // When removing a customer
   React.useEffect(() => {
-    if (remove.isRemoving === false) {
+    if (remove.customerId !== undefined) {
+      return;
+    }
+
+    if (remove.isRemoving === true) {
       return;
     }
 

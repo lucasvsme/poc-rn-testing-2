@@ -172,9 +172,7 @@ describe('useRemoveFeature', () => {
 
     expect(hook.result.current.error).toBeUndefined();
     expect(hook.result.current.isRemoving).toStrictEqual(false);
-    expect(hook.result.current.customerId).toStrictEqual(
-      mockExistingCustomer.id,
-    );
+    expect(hook.result.current.customerId).toBeUndefined();
     expect(mockCustomerApiClientRemove).toHaveBeenCalledTimes(1);
   });
 
