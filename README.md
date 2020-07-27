@@ -21,3 +21,8 @@ Components are tested using [react-native-testing-library](https://github.com/ca
 | Start the backend | `make backend-run` |
 
 > Note: The backend should be running before the UI tests. The emulator also must be created to run the UI tests.
+
+## Preview
+
+![E2E test running](./preview/01.gif)
+
