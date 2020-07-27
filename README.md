@@ -2,7 +2,7 @@
 
 It demonstrates how to write unit tests and UI tests to a React Native application.
 
-The user should be able to fill a form and click a button to create a customer. Clicking in an item of the customers list removes the user.
+The user should be able to fill a form and click a button to create a customer. Clicking in an item of the customers list removes the customer clicked.
 
 We want to write unit tests to UI code that interacts with a backend, validates user input and updates the UI conditionally. We also want to simulate user behavior in an actual Android device using an emulator.
 
