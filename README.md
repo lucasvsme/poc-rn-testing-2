@@ -100,3 +100,7 @@ PASS  e2e/index.e2e.ts (16.263 s)
     ✓ Removing a customer ({ name: 'Mary Jane', age: 67 }) (737 ms)
     ✓ Removing a customer ({ name: 'John Smith', age: 45 }) (736 ms)
 ```
+
+### Overview
+
+![design diagram](./preview/overview.png)
